@@ -1,0 +1,3 @@
+import MarkMetaCore
+
+MarkMeta.main()

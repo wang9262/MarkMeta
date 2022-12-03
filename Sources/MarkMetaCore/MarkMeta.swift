@@ -9,8 +9,8 @@ import Foundation
 import ArgumentParser
 
 public struct MarkMeta: ParsableCommand {
-    public static let configuration = CommandConfiguration(
-        abstract: "A Swift command-line tool to easily generate markdown with metadata for blog, or append metadata for existing markdown",
+    public static let configuration = CommandConfiguration(commandName: "markmeta",
+        abstract: "A Swift command-line tool to easily generate markdown with metadata for blog, or append metadata for existing markdown.",
         subcommands: [Generate.self, Append.self])
     
     public init() { }

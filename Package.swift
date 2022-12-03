@@ -10,6 +10,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.0"),
         .package(url: "https://github.com/johnsundell/files.git", from: "4.2.0"),
+        .package(url: "https://github.com/JohnSundell/Sweep", from: "0.4.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -22,6 +23,7 @@ let package = Package(
         .target(name: "MarkMetaCore", dependencies: [
             .product(name: "ArgumentParser", package: "swift-argument-parser"),
             .product(name: "Files", package: "files"),
+            .product(name: "Sweep", package: "sweep"),
         ]),
         .testTarget(
             name: "MarkMetaTests",

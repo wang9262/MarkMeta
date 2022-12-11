@@ -14,21 +14,33 @@ struct Generate: ParsableCommand {
     @Argument(help: "The markdown file name")
     private var name = Date().mdFilename
     
+    @Option(name: .shortAndLong, help: "Title for current md file")
+    private var title: String = ""
+    
     // upToNextOption 到下一个option之前都解析，放到数组里
-    @Option(name: .shortAndLong, parsing: .upToNextOption, help: "tags for current md file")
+    @Option(name: .long, parsing: .upToNextOption, help: "Tags for current md file")
     private var tags: [String] = [String]()
     
-    @Option(name: .shortAndLong, help: "description for current md file")
+    @Option(name: .shortAndLong, help: "Description for current md file")
     private var description: String = ""
     
-    @Flag(name: .shortAndLong, help:"show full log for debug")
+    @Flag(name: .shortAndLong, help:"Show full log for debug")
     private var verbose: Bool = false
+    
+    @Flag(name: .long, help:"Open created file or not")
+    private var open: Bool = false
     
     func run() throws {
         Logger.verbose = verbose
-        let result = Metadata(title: name, tags: tags.joined(separator: ","), description: description).formatedMarkdownMeta()
+        let realTitle = title.isEmpty ? name : title
+        let result = Metadata(title: realTitle, tags: tags.joined(separator: ","), description: description).formatedMarkdownMeta()
         let file = try Folder.current.createFile(named: "\(name)\(Metadata.Supplement.fileExtension.rawValue)")
+        Logger.debug("\(file.path)")
         try file.write(result)
-        Logger.debug("\(name)\(Metadata.Supplement.fileExtension.rawValue) has beed created successfully! Content is as below:\n\(result)")
+        if open {
+            file.open()
+        }
+        Logger.message("\(name)\(Metadata.Supplement.fileExtension.rawValue) has beed created successfully!")
+        Logger.debug("Content is as below:\n\(result)")
     }
 }
